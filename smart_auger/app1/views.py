@@ -20,3 +20,15 @@ def alert_configuration(request):
 
 def activitylogs(request):
     return render(request,'app1/activitylogs.html')
+
+def access_control(request):
+    return render(request,'app1/access_control.html')
+
+def recorded_zone(request):
+    return render(request,'app1/recorded_zone.html')
+
+def reports_and_analytics(request):
+    return render(request,'app1/reports_and_analytics.html')
+
+def extra(request):
+    return render(request,'app1/extra.html')
