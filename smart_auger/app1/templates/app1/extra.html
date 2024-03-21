@@ -1,222 +1,224 @@
-<!DOCTYPE html>
-<html lang="en">
+body {
+    font-family: 'Verdana', sans-serif;
+    width: 100%;
+    margin: 0;
+    padding-top: 10vh;
+    padding-bottom: 80px;
+    background: #f4f4f4;
+    box-sizing: border-box;
+}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% load static %}
-    <style>
-        /* Your CSS styles here */
-        body {
-            font-family: 'Verdana', sans-serif;
-            width: 100%;
-            margin: 0;
-            padding-top: 10vh;
-            padding-bottom: 80px;
-            background: #f4f4f4;
-            box-sizing: border-box;
-        }
+header {
+    background-color: #139FD2;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        header {
-            background-color: darkblue;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
 
-        .center-container {
-            text-align: center;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: calc(100vh - 140px); /* Adjust according to your header and footer height */
-        }
+header {
+    background-color: #139FD2;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
 
-        .center-container img {
-            width: 1400px; /* Adjust the width of the image */
-            max-height: calc(100% - 40px); /* Adjust the height of the image */
-            max-width: calc(100% - 50px); /* Adjust the maximum width of the image */
-            height: auto;
-            display: inline-block;
-            margin-top: 25px;
-        }
+.nav {
+    display: flex;
+    align-items: center;
+    margin-right: 104px;
+}
 
-        header {
-            background-color: darkblue;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
+.nav a {
+    padding: 10px 15px;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 50px; /* Adjust spacing between links */
+    white-space: nowrap; /* Prevent line breaks */
+}
 
-        .nav {
-            display: flex;
-            align-items: center;
-            margin-right: 104px;
-        }
+.logo {
+    margin-right: auto;
+}
 
-        .nav a {
-            padding: 10px 15px;
-            color: white;
-            text-decoration: none;
-            display: inline-block;
-            margin-left: 50px; /* Adjust spacing between links */
-            white-space: nowrap; /* Prevent line breaks */
-            position: relative; /* Set position to relative */
-        }
+.logo img {
+    max-height: 40px;
+    margin-left: -15px;
+    float: left;
+    border-radius: 20px;
+}
 
-        .logo {
-            margin-right: auto;
-        }
+.dropdown {
+    position: relative;
+}
 
-        .logo img {
-            max-height: 40px;
-            margin-left: -15px;
-            float: left;
-            border-radius: 20px;
-        }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #139FD2;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    left: 63%;
+    transform: translateX(-50%);
+    text-align: center;
+}
 
-        .dropdown {
-            display: inline-block;
-        }
+.dropdown-content a {
+    color: white;
+    padding: 8px 10px;
+    text-decoration: none;
+    display: block;
+    margin-left: -1px;
+}
 
-        .dropdown-content {
-            display: none; /* Initially hide dropdown content */
-            position: absolute;
-            background-color: #071390;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            top: 100%; /* Position dropdown below the link */
-            left: 0; /* Align dropdown with the left edge of the link */
-        }
 
-        .dropdown-content a {
-            color: white;
-            padding: 8px 10px;
-            text-decoration: none;
-            display: block;
-        }
+.dropdown-content .dropdown {
+    margin-right: 1px; /* Adjust spacing between companies */
+}
 
-        .dropdown:hover .dropdown-content {
-            display: block; /* Show dropdown content on hover */
-        }
 
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: darkblue;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            z-index: 1000;
-        }
+.nav .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #139FD2;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    
+}
 
-        footer h4,
-        footer p {
-            white-space: nowrap;
-            margin: 0;
-            padding: 2px;
-            display: inline;
-        }
+.nav .dropdown-content a {
+    float: none;
+    color: white;
+    padding: 8px 10px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    
+}
 
-        .footer-bottom {
-            white-space: nowrap;
-            padding-top: 5px;
-        }
+.nav .dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+    
+}
 
-        .footer-bottom p {
-            margin: 0;
-        }
+.nav .dropdown:hover .dropdown-content {
+    display: block;
+}
 
-    </style>
-</head>
+.nav #lang-selector {
+    margin-left: 10px;
+    display: block;
+    
+}
 
-<body>
-    <header>
-        <nav class="nav">
-            <a class="logo" href="#"><img src="{% static 'app1/images/icon.jpg' %}" alt="Logo"></a>
-            <div class="dropdown">
-                <a href="#">Features</a>
-                <div class="dropdown-content">
-                    <a href="{% url 'map' %}">Map Interface</a>
-                    <a href="{% url 'user_management' %}">User Management</a>
-                    <a href="{% url 'reports' %}">Reporting</a>
-                    <a href="{% url 'data_management' %}">Data Management</a>
-                    <a href="{% url 'alert_configuration' %}">Alert Configuration</a>
-                    <a href="{% url 'activitylogs' %}">Activity Logs</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <a href="#" class="dropbtn"><i class="fas fa-cog"></i>Multi-Company Coordination</a>
-                <div class="dropdown-content">
-                    <div class="dropdown">
-                        <a href="#" class="dropbtn">Company A</a>
-                        <div class="dropdown-content">
-                            <a href="#">ZONE 1</a>
-                            <a href="#">SHEAR</a>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <a href="#" class="dropbtn">Company B</a>
-                        <div class="dropdown-content">
-                            <a href="#">ZONE 2</a>
-                            <a href="#">SHEAR</a>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <a href="#" class="dropbtn">Company C</a>
-                        <div class="dropdown-content">
-                            <a href="#">ZONE 3</a>
-                            <a href="#">SHEAR</a>
-                        </div>
-                    </div>
-                </div>
+.nav #lang-selector .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
 
-            </div>
-            <div class="dropdown">
-                <a href="#">Super Admin</a>
-                <div class="dropdown-content">
-                    <a href="{% url 'access_control' %}">Access Control</a>
-                    <a href="{% url 'recorded_zone' %}">Recorded Zones</a>
-                    <a href="{% url 'reports_and_analytics' %}">Reports & Analytics</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <a href="#">Services</a>
-                <div class="dropdown-content">
-                    <a href="#">Policy Management</a>
-                    <a href="#">Integration Controls</a>
-                    <a href="#">Audit & Compliance</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+.nav #lang-selector .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #139FD2;
+    min-width: 80px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: -65px;
+    top: -10px;
+}
 
-    <div class="center-container">
-        <img src="{% static 'app1/images/home.jpg' %}" alt="Image">
-    </div>
+.nav #lang-selector .dropdown-content a {
+    float: none;
+    color: white;
+    padding: 8px 10px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
 
-    <footer>
-        <h4>Footer Content</h4>
-        <div class="footer-bottom">
-            <p>© 2024 Company. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
+}
 
-</html>
+.nav #lang-selector .dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
 
+}
+
+.nav #lang-selector:hover .dropdown-content {
+    display: block;
+}
+
+.nav #lang-selector select {
+    display: none;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #139FD2;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    z-index: 1000;
+}
+
+footer h4,
+footer p {
+    white-space: nowrap;
+    margin: 0;
+    padding: 2px;
+    display: inline;
+}
+
+.footer-bottom {
+    white-space: nowrap;
+    padding-top: 5px;
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+.dropdown-content1 {
+    display: none;
+    position: absolute;
+    background-color: #139FD2;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0; /* Align dropdown content to the right */
+    top: 0; /* Position dropdown content at the top */
+    text-align: center;
+    left: 120px;
+}
+
+.dropdown1 {
+    position: relative; /* Adjust positioning of the dropdown */
+}
+
+.dropdown1:hover .dropdown-content1 {
+    display: block; /* Show dropdown content when dropdown is hovered */
+}
