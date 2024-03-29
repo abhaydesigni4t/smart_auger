@@ -248,10 +248,14 @@
         .map {
             float: right; 
             width: 50%;
-            height: 150px; 
             margin-top: 45px;
             margin-left: -20px; 
-            margin-right: 300px;
+            margin-right: 250px;
+        }
+
+        .map img {
+            width: 600px;
+            height: 200px;
         }
 
         .sidebar h2 {
@@ -336,9 +340,12 @@
 
     <div class="clearfix">
         <div class="map">
-            <img src="{% static 'app1/images/map.jpg' %}" alt="Example Image" style="max-width: 100%; height: auto;">
+            <img src="{% static 'app1/images/newjs.jpeg' %}" alt="Example Image" style="max-width: 600px; height: 550px;">
         </div>
         <div class="sidebar">
+
+
+            
             <h2 class="filter-title">Filter</h2>
             <div class="checkbox">
                 <input type="checkbox" id="today">
