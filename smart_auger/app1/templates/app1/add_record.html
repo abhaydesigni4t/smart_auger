@@ -7,8 +7,8 @@
     <title>Document</title>
     {% load static %}
     <style>
-
-        body {
+       
+       body {
             font-family: 'Verdana', sans-serif;
             width: 100%;
             margin: 0;
@@ -55,7 +55,7 @@
             color: white;
             text-decoration: none;
             display: inline-block;
-            margin-left: 50px; 
+            margin-left: 50px;
             white-space: nowrap;
         }
 
@@ -96,7 +96,7 @@
 
 
         .dropdown-content .dropdown {
-            margin-right: 1px; 
+            margin-right: 1px;
         }
 
 
@@ -232,75 +232,110 @@
         .dropdown1:hover .dropdown-content1 {
             display: block; 
         }
-                
-            
-        .user {
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        #table-container {
+    
+        .content {
+            flex-grow: 1;
+            padding: 30px;
             margin-top: 20px;
-            margin-left: 350px;
-            margin-right: 100px;
-        }
-        #customers {
-            font-family: Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 70%;
+            height: 550px;
         }
 
-        #customers td,
-        #customers th {
-            border: 1px solid #ddd;
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: transparent;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            background-color: #139FD2;
+            color: white;
+            border-radius: 8px;
             padding: 8px;
-            text-align: center;
+            font-size: 15px;
         }
 
-        #customers tr:nth-child(even) {
-            background-color: #f2f2f2;
+        form {
+            display: flex;
+            flex-direction: column;
         }
 
-        #customers tr:hover {
-            background-color: #ddd;
-        }
-
-        #customers th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            background-color: #139FD2;
-            color: white;
-        }
-
-        .heading1 {
-            text-align: center;
-            color: black;
-        }
-
-        .add {
-            background-color: #139FD2;
-            color: white;
-            padding: 10px;
-            border: solid;
-            margin-top: 20px;
+        label {
             display: inline-block;
-            text-decoration: none;
-            border-radius: 50px 20px;
+            margin-bottom: 0px;
+            color: #333;
         }
 
-        .delete-btn {
-            background-color: #f2463d;
-            color: white;
-            padding: 8px 16px;
-            border: none;
+        input {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px; 
+            border: 1px solid #ddd;
             border-radius: 4px;
-            cursor: pointer;
-            margin-right: 5px;
-            text-decoration: none;
+            box-sizing: border-box;
         }
-
         
 
+        .form-label {
+            display: inline-block;
+            margin-bottom: 0px;
+            color: #333;
+        }
+
+        .form-label,
+        select {
+            display: inline-block;
+            margin-bottom: 0px;
+            color: #333;
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px; 
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #139FD2;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background-color: #09b4f2;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .content {
+                margin-top: 10px;
+            }
+
+            .form-container {
+                max-width: 100%;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            .form-container {
+                padding: 10px;
+            }
+
+            input,
+            button {
+                width: 100%;
+                margin-bottom: 15px; 
+            }
+           
+        }
+        
     </style>
 </head>
 
@@ -363,35 +398,33 @@
             </div>
         </nav>
     </header>
+    
+    <div class="content">
+        <div class="form-container">
+            <h2>Add New Record</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
 
-    <div class="user">
-        <h2 class="heading1">User Management</h2>
-        <a class="add" href="#">Add Users</a>
+
+                <label for="{{ form.asset_id.id_for_label }}">Latitude:</label>
+                {{ form.latitude }}
+                <br>
+
+                <label for="{{ form.description.id_for_label }}">Longitude:</label>
+                {{ form.longitude }}
+                <br>
+
+                <label for="{{ form.timestamp.id_for_label }}">Timestamp:</label>
+                <input type="datetime-local" id="{{ form.timestamp.id_for_label }}" name="{{ form.timestamp.html_name }}">
+                <br>
+
+
+                <button type="submit">Save</button>
+            </form>
+        </div>
     </div>
 
-    <div id="table-container">
-    <table id="customers">
-        <tr>
-            <th>Sr.No</th>
-            <th>User Name</th>
-            <th>Role</th>
-            <th>Action</th>
-        </tr>
-        {% for i in data %}
-            <tr>
-                <td>{{ i.sr }}</td>
-                <td>{{ i.username }}</td>
-                <td>{{ i.role }}</td>
-                <td>      
-                    <a href="{% url 'task_delete1' i.pk %}" class="delete-btn">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        
-    </table>
-</div>
     <footer>
-
         <p>Email: info@smartauger.com</p>
         <p>Phone: +1 (123) 456-7890</p>
         <div class="footer-bottom">
