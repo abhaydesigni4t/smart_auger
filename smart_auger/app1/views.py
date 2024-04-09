@@ -135,3 +135,5 @@ class LoginAPIView(APIView):
                 return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+def get_extra(request):
+    return render(request,'app1/extra1.html')

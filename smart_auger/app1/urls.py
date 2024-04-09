@@ -25,5 +25,6 @@ path('recorded_zone/',views.recorded_zone,name='recorded_zone'),
 path('reports_and_analytics/',views.reports_and_analytics,name='reports_and_analytics'),
 path('extra/',views.extra,name='extra'),
 path('data_manage_api/',DataManageAPIView.as_view(),name='data_manage_api'),
+path('extra1/',views.get_extra,name='extra1'),
 ]
 
