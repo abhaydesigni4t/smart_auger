@@ -1,13 +1,17 @@
 from django.urls import path
 
 from . import views
-from .views import UpdateData,TaskDeleteView,DataManageAPIView,TaskDeleteView1
+from .views import UpdateData,TaskDeleteView,DataManageAPIView,TaskDeleteView1,LoginAPIView
 
 urlpatterns = [
-    
-path('',views.home,name='home'),
+
+path('',views.user_login,name='login'),
+path('logout/', views.user_logout, name='logout'),
+path('login_api/', LoginAPIView.as_view(), name='api-login'),  
+path('home/',views.home,name='home'),
 path('map/',views.map_interface,name='map'),
 path('user_management/',views.user_management,name='user_management'),
+path('add_user/',views.add_user,name='add_user'),
 path('delete1/<int:pk>/', TaskDeleteView1.as_view(), name='task_delete1'),
 path('reports/',views.reports,name='reports'), 
 path('data_management/',views.data_management_view,name='data_management'),

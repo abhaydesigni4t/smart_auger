@@ -1,13 +1,16 @@
 from django.shortcuts import render,redirect
+from django.contrib.auth import authenticate, login,logout
 from .models import data_management_model,user_management_model
-from .forms import data_management_form
-from .serializers import DataManageSerializer
+from .forms import data_management_form,user_management_form,LoginForm
+from .serializers import DataManageSerializer,LoginSerializer
 from django.views.generic import UpdateView,DeleteView
 from django.urls import reverse_lazy
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
+from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
 
 
 def home(request):
@@ -19,6 +22,18 @@ def map_interface(request):
 def user_management(request):
     data = user_management_model.objects.all()
     return render(request,'app1/user_management.html',{'data':data})
+
+def add_user(request):
+    if request.method == 'POST':
+        form = user_management_form(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user_management')
+    else:
+        form = user_management_form()  
+    return render(request, 'app1/add_user.html', {'form': form})
+
+
 
 class TaskDeleteView1(DeleteView):
     model = user_management_model
@@ -83,3 +98,40 @@ class DataManageAPIView(generics.ListCreateAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user:
+                login(request, user)    
+                return redirect('home')
+            else:             
+                form.add_error(None, 'Invalid username or password')
+    else:
+        form = LoginForm()
+    return render(request, 'app1/login.html', {'form': form})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')
+
+class LoginAPIView(APIView):
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            username = serializer.validated_data['username']
+            password = serializer.validated_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user:
+           
+                token, created = Token.objects.get_or_create(user=user)
+                return Response({'token': token.key, 'message': 'Login successful'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    

@@ -7,3 +7,7 @@ class DataManageSerializer(serializers.ModelSerializer):
     class Meta:
         model = data_management_model
         exclude = []
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
