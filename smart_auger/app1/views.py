@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from .models import data_management_model,user_management_model
-from .forms import data_management_form,user_management_form,LoginForm
+from .forms import data_management_form,user_management_form1,LoginForm
 from .serializers import DataManageSerializer,LoginSerializer
 from django.views.generic import UpdateView,DeleteView
 from django.urls import reverse_lazy
@@ -25,12 +25,12 @@ def user_management(request):
 
 def add_user(request):
     if request.method == 'POST':
-        form = user_management_form(request.POST)
+        form = user_management_form1(request.POST)
         if form.is_valid():
             form.save()
             return redirect('user_management')
     else:
-        form = user_management_form()  
+        form = user_management_form1()  
     return render(request, 'app1/add_user.html', {'form': form})
 
 
@@ -135,5 +135,3 @@ class LoginAPIView(APIView):
                 return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-def get_extra(request):
-    return render(request,'app1/extra2.html')

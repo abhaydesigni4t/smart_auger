@@ -1,14 +1,14 @@
 from django import forms
-from .models import data_management_model
+from .models import data_management_model,user_management_model
 
 class data_management_form(forms.ModelForm):
     class Meta:
         model = data_management_model
         exclude = ['timestamp']
 
-class user_management_form(forms.ModelForm):
+class user_management_form1(forms.ModelForm):
     class Meta:
-        model = data_management_model
+        model = user_management_model
         fields = '__all__'
 
 class LoginForm(forms.Form):
