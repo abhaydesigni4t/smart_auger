@@ -147,7 +147,6 @@ class LoginAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-
 from .models import Location
 import json
 
@@ -155,3 +154,16 @@ def map_view(request):
     locations = Location.objects.all()
     locations_data = [{'lat': location.latitude, 'lng': location.longitude} for location in locations]
     return render(request, 'app1/gmap.html', {'locations_data': json.dumps(locations_data)})
+
+
+def delete_selected(request):
+    if request.method == 'POST':
+        selected_recordings = request.POST.getlist('selected_recordings')
+        if 'select_all' in request.POST:  # Check if 'Select All' checkbox is checked
+            # Get all recording primary keys
+            selected_recordings = [str(recording.pk) for recording in Location.objects.all()]
+        # Delete selected recordings
+        Location.objects.filter(pk__in=selected_recordings).delete()
+        # Redirect back to the page where the form was submitted
+        return redirect('data_management')  # Replace 'data_management' with the appropriate URL name
+    return redirect('data_management')  # Redirect back in case of a G

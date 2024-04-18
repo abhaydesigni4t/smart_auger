@@ -26,6 +26,7 @@ path('reports_and_analytics/',views.reports_and_analytics,name='reports_and_anal
 path('extra/',views.extra,name='extra'),
 path('data_manage_api/',DataManageAPIView.as_view(),name='data_manage_api'),
 path('gmap/', views.map_view, name='gmap'),
+path('delete_selected/', views.delete_selected, name='delete_selected'),
 
 
 ]
