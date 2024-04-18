@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
-from .models import data_management_model,user_management_model
-from .forms import data_management_form,user_management_form1,LoginForm
+from .models import data_management_model,user_management_model,Location
+from .forms import data_management_form,user_management_form1,LoginForm,LocationForm
 from .serializers import DataManageSerializer,LoginSerializer
 from django.views.generic import UpdateView,DeleteView
 from django.urls import reverse_lazy
@@ -17,8 +17,18 @@ def home(request):
     return render(request,'app1/home.html')
 
 def map_interface(request):
-    return render(request,'app1/map_interface.html')
+    # Query the database to get all recordings
+    recordings = data_management_model.objects.all()
+    
+    # Construct locations data with latitude and longitude as floats
+    locations_data = [{
+        'lat': recording.latitude,
+        'lng': recording.longitude,
+        'name': f"Recording {recording.rec_no}"
+    } for recording in recordings]
 
+    # Pass locations_data to the template
+    return render(request, 'app1/map_interface.html', {'locations_data': locations_data})
 def user_management(request):
     data = user_management_model.objects.all()
     return render(request,'app1/user_management.html',{'data':data})
@@ -32,7 +42,6 @@ def add_user(request):
     else:
         form = user_management_form1()  
     return render(request, 'app1/add_user.html', {'form': form})
-
 
 
 class TaskDeleteView1(DeleteView):
@@ -63,27 +72,29 @@ def extra(request):
     return render(request,'app1/extra.html')
 
 def data_management_view(request):
-    recordings = data_management_model.objects.all()
+    recordings = Location.objects.all()
     return render(request, 'app1/data_management.html', {'recordings': recordings})
+
 
 def add_reco(request):
     if request.method == 'POST':
-        form = data_management_form(request.POST)
+        form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('data_management')
+            return redirect('data_management') 
     else:
-        form = data_management_form()
+        form = LocationForm()
     return render(request, 'app1/add_record.html', {'form': form})
 
+
 class UpdateData(UpdateView):
-    model = data_management_model
+    model = Location
     fields = '__all__'     
     template_name = 'app1/add_record.html'
     success_url = reverse_lazy('data_management')
 
 class TaskDeleteView(DeleteView):
-    model = data_management_model
+    model = Location
     template_name = 'app1/data_confirm_delete.html'
     success_url = reverse_lazy('data_management')
 
@@ -135,3 +146,12 @@ class LoginAPIView(APIView):
                 return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
+
+from .models import Location
+import json
+
+def map_view(request):
+    locations = Location.objects.all()
+    locations_data = [{'lat': location.latitude, 'lng': location.longitude} for location in locations]
+    return render(request, 'app1/gmap.html', {'locations_data': json.dumps(locations_data)})
