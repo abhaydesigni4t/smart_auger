@@ -6,8 +6,7 @@ from .views import UpdateData,TaskDeleteView,DataManageAPIView,TaskDeleteView1,L
 urlpatterns = [
 
 path('',views.user_login,name='login'),
-path('logout/', views.user_logout, name='logout'),
-path('login_api/', LoginAPIView.as_view(), name='api-login'),  
+path('logout/', views.user_logout, name='logout'),  
 path('home/',views.home,name='home'),
 path('map/',views.map_interface,name='map'),
 path('user_management/',views.user_management,name='user_management'),
@@ -24,6 +23,7 @@ path('access_control/',views.access_control,name='access_control'),
 path('recorded_zone/',views.recorded_zone,name='recorded_zone'),
 path('reports_and_analytics/',views.reports_and_analytics,name='reports_and_analytics'),
 path('extra/',views.extra,name='extra'),
+path('login_api/', LoginAPIView.as_view(), name='api-login'),
 path('data_manage_api/',DataManageAPIView.as_view(),name='data_manage_api'),
 path('gmap/', views.map_view, name='gmap'),
 path('delete_selected/', views.delete_selected, name='delete_selected'),

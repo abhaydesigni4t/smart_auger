@@ -11,6 +11,7 @@ from rest_framework import status
 from django.utils import timezone
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
+import json
 
 
 def home(request):
@@ -100,7 +101,7 @@ class TaskDeleteView(DeleteView):
 
 
 class DataManageAPIView(generics.ListCreateAPIView):
-    queryset = data_management_model.objects.all()
+    queryset = Location.objects.all()
     serializer_class = DataManageSerializer
 
     def post(self, request, *args, **kwargs):
@@ -147,8 +148,6 @@ class LoginAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-from .models import Location
-import json
 
 def map_view(request):
     locations = Location.objects.all()
