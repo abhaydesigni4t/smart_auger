@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login,logout
 from .models import data_management_model,user_management_model,Location
-from .forms import data_management_form,user_management_form1,LoginForm,LocationForm
+from .forms import user_management_form1,LoginForm,LocationForm
 from .serializers import DataManageSerializer,LoginSerializer
 from django.views.generic import UpdateView,DeleteView
 from django.urls import reverse_lazy
@@ -30,6 +30,7 @@ def map_interface(request):
 
     # Pass locations_data to the template
     return render(request, 'app1/map_interface.html', {'locations_data': locations_data})
+
 def user_management(request):
     data = user_management_model.objects.all()
     return render(request,'app1/user_management.html',{'data':data})
@@ -82,7 +83,7 @@ def add_reco(request):
         form = LocationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('data_management') 
+            return redirect('data_management')
     else:
         form = LocationForm()
     return render(request, 'app1/add_record.html', {'form': form})
@@ -105,7 +106,11 @@ class DataManageAPIView(generics.ListCreateAPIView):
     serializer_class = DataManageSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = DataManageSerializer(data=request.data)
+        # Exclude 'timestamp' field from data when creating a new record
+        request_data_without_timestamp = request.data.copy()
+        request_data_without_timestamp.pop('timestamp', None)
+        
+        serializer = DataManageSerializer(data=request_data_without_timestamp)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -158,11 +163,8 @@ def map_view(request):
 def delete_selected(request):
     if request.method == 'POST':
         selected_recordings = request.POST.getlist('selected_recordings')
-        if 'select_all' in request.POST:  # Check if 'Select All' checkbox is checked
-            # Get all recording primary keys
+        if 'select_all' in request.POST:  
             selected_recordings = [str(recording.pk) for recording in Location.objects.all()]
-        # Delete selected recordings
         Location.objects.filter(pk__in=selected_recordings).delete()
-        # Redirect back to the page where the form was submitted
-        return redirect('data_management')  # Replace 'data_management' with the appropriate URL name
-    return redirect('data_management')  # Redirect back in case of a G
+        return redirect('data_management')  
+    return redirect('data_management')  
