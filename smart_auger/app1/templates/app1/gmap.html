@@ -335,7 +335,7 @@
         var locations = JSON.parse('{{ locations_data | escapejs }}');
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 8, // Set the initial zoom level
+                zoom: 8,
             });
     
             var bounds = new google.maps.LatLngBounds();
@@ -346,11 +346,10 @@
                     position: {lat: location.lat, lng: location.lng},
                     map: map,
                 });
-                markers.push(marker); // Store marker in array
+                markers.push(marker); 
                 bounds.extend(marker.getPosition());
             });
     
-            // Draw polyline connecting marker locations
             var lineCoordinates = markers.map(function(marker) {
                 return marker.getPosition();
             });
@@ -366,10 +365,9 @@
             line.setMap(map);
     
             map.fitBounds(bounds);
-    
-            // Set zoom level after fitting bounds
+         
             var listener = google.maps.event.addListener(map, "idle", function() {
-                if (map.getZoom() > 20) map.setZoom(20); // Adjust the zoom level here
+                if (map.getZoom() > 20) map.setZoom(20); 
                 google.maps.event.removeListener(listener);
             });
         }
