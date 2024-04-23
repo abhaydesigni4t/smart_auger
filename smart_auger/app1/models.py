@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 
 class data_management_model(models.Model):
     rec_no = models.AutoField(primary_key=True, unique=True)
@@ -25,11 +25,16 @@ class user_management_model(models.Model):
 
     def __str__(self):
         return self.username
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:  # If the instance is new
+            last_instance = self.__class__.objects.last()
+            if last_instance:
+                self.sr = last_instance.sr + 1
+            else:
+                self.sr = 1
+        super().save(*args, **kwargs)
 
-from django.utils import timezone
-
-from django.db import models
-from django.utils import timezone
 
 class Location(models.Model):
     rec_no = models.AutoField(primary_key=True)
@@ -44,3 +49,4 @@ class Location(models.Model):
             # Set the new rec_no as the maximum rec_no + 1
             self.rec_no = max_rec_no + 1
         super(Location, self).save(*args, **kwargs)
+

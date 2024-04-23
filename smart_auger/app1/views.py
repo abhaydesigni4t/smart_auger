@@ -153,12 +153,10 @@ class LoginAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-
 def map_view(request):
     locations = Location.objects.all()
     locations_data = [{'lat': location.latitude, 'lng': location.longitude} for location in locations]
     return render(request, 'app1/gmap.html', {'locations_data': json.dumps(locations_data)})
-
 
 def delete_selected(request):
     if request.method == 'POST':
@@ -168,3 +166,14 @@ def delete_selected(request):
         Location.objects.filter(pk__in=selected_recordings).delete()
         return redirect('data_management')  
     return redirect('data_management')  
+
+
+
+def delete_selected1(request):
+    if request.method == 'POST':
+        selected_records = request.POST.getlist('selected_recordings')
+        if 'select_all' in request.POST:
+            selected_records = [str(record.pk) for record in user_management_model.objects.all()]
+        user_management_model.objects.filter(pk__in=selected_records).delete()
+        return redirect('user_management')  
+    return redirect('user_management')
