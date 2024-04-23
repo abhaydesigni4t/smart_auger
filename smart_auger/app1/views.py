@@ -168,7 +168,6 @@ def delete_selected(request):
     return redirect('data_management')  
 
 
-
 def delete_selected1(request):
     if request.method == 'POST':
         selected_records = request.POST.getlist('selected_recordings')
@@ -177,3 +176,14 @@ def delete_selected1(request):
         user_management_model.objects.filter(pk__in=selected_records).delete()
         return redirect('user_management')  
     return redirect('user_management')
+
+
+class LocationListAPI(APIView):
+    def get(self, request, format=None):
+        locations = Location.objects.all()
+        serializer = DataManageSerializer(locations, many=True)
+        data = {
+            'count': locations.count(),
+            'data': serializer.data
+        }
+        return Response(data)
