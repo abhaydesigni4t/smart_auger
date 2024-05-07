@@ -187,3 +187,10 @@ class LocationListAPI(APIView):
             'data': serializer.data
         }
         return Response(data)
+
+
+class DataAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        print(data)
+        return Response(data, status=200)

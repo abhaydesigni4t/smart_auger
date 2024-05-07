@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from .views import UpdateData,TaskDeleteView,DataManageAPIView,TaskDeleteView1,LoginAPIView,LocationListAPI
+from .views import UpdateData,TaskDeleteView,DataManageAPIView,TaskDeleteView1,LoginAPIView,LocationListAPI,DataAPIView
 
 urlpatterns = [
 
@@ -29,6 +29,7 @@ path('gmap/', views.map_view, name='gmap'),
 path('delete_selected/', views.delete_selected, name='delete_selected'),
 path('delete_selected1/', views.delete_selected1, name='delete_selected1'),
 path('get_data/', LocationListAPI.as_view(), name='get_data'),
+path('post_data/', DataAPIView.as_view(), name='post_data'),
 
 
 ]
